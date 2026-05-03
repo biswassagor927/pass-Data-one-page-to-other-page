@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:passdata/one.dart';
+import 'package:passdata/home.dart';
+import 'package:rive/rive.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,8 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -21,24 +30,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var name = "Sagor";
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(Duration(seconds: 10), () {
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(builder: (context) => HomePage()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => One(sagor: name),
-                ),
-              );
-            },
-            child: Text("Go to One Page"),
-          ),
+    return Scaffold(
+      body: Center(
+        child: RiveAnimation.asset(
+          "animation/402-752-house-resizing.riv",
+          fit: BoxFit.cover,
+          animations: ["Demo Mode"],
         ),
       ),
     );
